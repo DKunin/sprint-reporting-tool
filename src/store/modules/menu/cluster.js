@@ -2,7 +2,7 @@ import lazyLoading from './lazyLoading'
 
 export default {
   name: 'Cluster',
-  path: '/cluster',
+  path: '/',
   component: lazyLoading('cluster/Cluster'),
   meta: {
     default: true,

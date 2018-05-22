@@ -10,8 +10,6 @@
     <div class="row navbar-container">
 
       <div v-if="false" class="menu-icon-container d-flex align-items-center justify-content-center justify-content-lg-start col">
-        <a class="menu-icon i-menu-expanded" href="#" @click.prevent="toggleSidebar(false)" v-if="sidebarOpened"></a>
-        <a class="menu-icon i-menu-collapsed" href="#" @click.prevent="toggleSidebar(true)" v-else></a>
       </div>
 
       <div class="navbar-text offset-md-1 col-md-7 d-none d-lg-flex align-items-center justify-content-center">

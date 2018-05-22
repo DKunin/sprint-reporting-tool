@@ -13,8 +13,10 @@ import { sync } from 'vuex-router-sync'
 import VuesticPlugin from 'vuestic-theme/vuestic-plugin'
 import './i18n'
 import YmapPlugin from 'vue-yandex-maps'
+import Trend from 'vuetrend'
 
 
+Vue.use(Trend)
 Vue.use(VuesticPlugin)
 Vue.use(YmapPlugin)
 
