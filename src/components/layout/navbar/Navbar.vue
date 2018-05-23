@@ -2,7 +2,7 @@
   <nav class="navbar app-navbar navbar-toggleable-md">
 
     <div class="navbar-brand-container d-flex align-items-center justify-content-start">
-      <router-link class="navbar-brand" to="/dashboard">
+      <router-link class="navbar-brand" to="/">
         Sprint reporting tool
       </router-link>
     </div>
@@ -16,47 +16,12 @@
         
       </div>
 
-      <div v-if="false" class="col nav-item dropdown navbar-dropdown d-flex align-items-center justify-content-center" v-dropdown>
-        <a class="nav-link dropdown-toggle d-flex align-items-center justify-content" href="#"
-           @click.prevent="closeMenu">
-          <span class="i-nav-messages notify"></span>
+      <div class="col nav-item d-flex align-items-center justify-content-center">
+        <a class="nav-link d-flex align-items-center justify-content" href="#/settings">
+          <span class="vuestic-icon vuestic-icon-settings"></span>
         </a>
-        <div class="dropdown-menu">
-          <div class="dropdown-menu-content">
-            <a class="dropdown-item" href="#">
-              <span class="ellipsis">{{ $t('messages.new', {name: "Oleg M"})}}</span>
-            </a>
-            <a class="dropdown-item" href="#">
-              <span class="ellipsis">{{ $t('messages.new', {name: "Andrei H"})}}</span>
-            </a>
-            <div class="dropdown-item plain-link-item">
-              <a class="plain-link" href="#">{{'messages.all' | translate}}</a>
-            </div>
-          </div>
-        </div>
       </div>
-      <div v-if="false"  class="col nav-item dropdown navbar-dropdown d-flex align-items-center justify-content-center" v-dropdown>
-        <a class="nav-link dropdown-toggle d-flex align-items-center justify-content" href="#"
-           @click.prevent="closeMenu">
-          <span class="i-nav-notification notify"></span>
-        </a>
-        <div class="dropdown-menu">
-          <div class="dropdown-menu-content">
-            <a class="dropdown-item" href="#">
-              <span class="ellipsis">{{$t('notifications.sentMessage', {name: 'Vasily S'})}}</span>
-            </a>
-            <a class="dropdown-item" href="#">
-              <span class="ellipsis">{{$t('notifications.uploadedZip', { name: "Oleg M", type: "typography component"})}}</span>
-            </a>
-            <a class="dropdown-item" href="#">
-              <span class="ellipsis">{{$t('notifications.startedTopic',{name: "Andrei H"}) }}</span>
-            </a>
-            <div class="dropdown-item plain-link-item">
-              <a class="plain-link" href="#">{{'notifications.all' | translate}}</a>
-            </div>
-          </div>
-        </div>
-      </div>
+
     </div>
   </nav>
 </template>
@@ -164,79 +129,6 @@
       height: 100%;
     }
 
-    .dropdown.navbar-dropdown {
-      .dropdown-toggle {
-        padding: 0;
-        &:after {
-          display: none;
-        }
-      }
-
-      &.show {
-        @include media-breakpoint-up(lg) {
-          .dropdown-menu {
-            left: auto;
-            right: 0;
-          }
-        }
-        &:after {
-          position: absolute;
-          bottom: -$dropdown-show-b;
-          right: calc(50% - 10px);
-          width: 0;
-          height: 0;
-          display: block;
-          content: '';
-          border-left: 10px solid transparent;
-          border-right: 10px solid transparent;
-          border-bottom: 10px solid $darkest-gray;
-        }
-      }
-
-      .dropdown-menu {
-        margin-top: $dropdown-show-b;
-        padding-top: 0;
-        width: 100%;
-      }
-
-      .dropdown-item {
-        height: $navbar-dd-item-height;
-        cursor: pointer;
-        font-size: $font-size-base;
-
-        &:hover, &:active, &:focus, &.active {
-          outline: none;
-        }
-
-        &.plain-link-item {
-          color: $brand-primary;
-
-          &:hover, &:active, &:focus {
-            background: $dropdown-background;
-          }
-
-          .plain-link {
-            text-decoration: none;
-          }
-        }
-      }
-    }
-
-    .notify {
-      position: relative;
-
-      &::after {
-        content: '';
-        position: absolute;
-        right: -6px;
-        top: -6px;
-        background-color: $brand-primary;
-        height: 12px;
-        width: 12px;
-        border-radius: 50%;
-      }
-    }
-
     .i-nav-notification.notify::after {
       right: -4px;
       top: 0;
@@ -258,22 +150,6 @@
         }
       }
 
-      .dropdown.navbar-dropdown {
-        &.show {
-          display: flex;
-          &:after {
-            bottom: -$dropdown-mobile-show-b;
-            z-index: 2;
-          }
-          .dropdown-menu {
-            margin-top: $dropdown-mobile-show-b;
-            left: auto;
-            &.last {
-              right: 0;
-            }
-          }
-        }
-      }
     }
   }
 </style>

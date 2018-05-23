@@ -10,6 +10,7 @@ import tables from './tables'
 import auth from './auth'
 import extra from './extra'
 import singleTeam from './singleTeam'
+import settings from './settings'
 
 const state = {
   items: [
@@ -22,6 +23,7 @@ const state = {
     ui,
     extra,
     singleTeam,
+    settings,
     auth,
     maps
   ]
