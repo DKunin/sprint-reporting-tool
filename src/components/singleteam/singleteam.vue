@@ -14,15 +14,10 @@
       <div class="row">
         <div class="col-md-2">
           <vuestic-widget class="info-widget">
-          <div class="info-widget-inner">
-            <div class="stats">
-              <div class="stats-number">
-                <vuestic-progress-bar type="circle" ref="circle"></vuestic-progress-bar>
-              </div>
-              <div class="stats-title"></div>
+            <div class="info-widget-inner">
+              <vuestic-progress-bar type="circle" ref="circle"></vuestic-progress-bar>
             </div>
-          </div>
-        </vuestic-widget>
+          </vuestic-widget>
         </div>
         <div class="col-md-2">
           <vuestic-widget class="info-widget">
@@ -51,26 +46,24 @@
         </div>
 
         <div class="col-md-2">
-          <vuestic-widget class="info-widget">
-          <div class="info-widget-inner">
-            <div class="stats">
-              <div class="stats-number">
-                <i class="ion ion-md-arrow-up text-primary stats-icon"></i>
-                3
+          <vuestic-widget class="info-widget info-widget-danger">
+            <div class="info-widget-inner">
+              <div class="stats">
+                <div class="stats-number">
+                  6
+                </div>
+                <div class="stats-title">P0/P1 bugs</div>
               </div>
-              <div class="stats-title">P0/P1 bugs</div>
             </div>
-          </div>
           </vuestic-widget>
         </div>
 
         <div class="col-md-2">
-          <vuestic-widget class="info-widget">
+          <vuestic-widget class="info-widget info-widget-warning">
           <div class="info-widget-inner">
             <div class="stats">
               <div class="stats-number">
-                <i class="ion ion-md-arrow-down text-primary stats-icon"></i>
-                3
+                2
               </div>
               <div class="stats-title">Support Bugs</div>
             </div>
@@ -78,29 +71,36 @@
           </vuestic-widget>
         </div>
 
+        <div class="col-md-2">
+          <vuestic-widget headerText="Backglog" class="widget-short-info">
+          <div class="widget-inner">
+              <div class="stats-title">formed: <i class="fa fa-check success-icon icon-right input-icon"></i></div>
+              <div class="stats-title">estimated: <i class="fa fa-check success-icon icon-right input-icon"></i></div>
+              <div class="stats-title">groomed: <i class="fa fa-exclamation-triangle icon-right input-icon error-icon"></i></div>
+          </div>
+          </vuestic-widget>
+        </div>
       </div>
 
       <div class="row">
         <div class="col-md-4">
-          <vuestic-widget>
-            <h4>Burndown</h4>
+          <vuestic-widget headerText="Burndown">
             <vuestic-chart :data="lineChartData" type="line"></vuestic-chart>
           </vuestic-widget>
         </div>
         <div class="col-md-4">
-          <vuestic-widget>
-            <h4>Velocity</h4>
+          <vuestic-widget headerText="Velocity">
             <vuestic-chart :data="unitVelocity" type="vertical-bar"></vuestic-chart>
           </vuestic-widget>
         </div>
         <div class="col-md-4">
-          <vuestic-widget class="chart-widget">
-            <h4>Tasks</h4>
+          <vuestic-widget class="chart-widget" headerText="Tasks">
             <vuestic-chart :data="pieChartData" type="pie"></vuestic-chart>
           </vuestic-widget>
         </div>
       </div>
-      <div class="row">
+
+      <div class="row row-padding-bottom">
         <div class="col-md-4">
             <h3>Executive Summary</h3>
             <div class="well">
@@ -119,9 +119,9 @@
               {{ paragraph() }}
             </div>
         </div>
-        </div>
+      </div>
 
-        <div class="row">
+      <div class="row">
           <div class="col-md-4">
             <div class="table-responsive">
             <table class="table table-striped table-sm color-icon-label-table">
@@ -159,13 +159,17 @@
           </div>
           </div>
           <div class="col-md-4">
-              <ul class="vue-unordered">
-                <li><a href="">Backlog</a></li>
-                <li><a href="">Retrospective</a></li>
-              </ul>
+              <div>
+                <ul class="vue-unordered">
+                  <li><a href="">Retrospective</a></li>
+                </ul>
+              </div>
           </div>
       </div>
+
+
     </vuestic-widget>
+
 
       <li><h4>{{ sprintName() }}  {{ sprintStart() }} - {{ sprintEnd() }}</h4> <div class="sprit-status sprit-status-past btn btn-micro btn-primary">finished</div></li>
 
@@ -303,5 +307,20 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+  
+  .widget.info-widget.info-widget-warning {
+    border-top-color: $brand-warning;
+  }
+
+  .widget.info-widget.info-widget-danger {
+    border-top-color: $brand-danger;
+  }
+  .row-padding-bottom {
+    padding-bottom: 20px;
+  }
+
+  .widget-short-info .widget-body {
+    padding-top: 2px;
   }
 </style>
