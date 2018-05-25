@@ -62,8 +62,7 @@
 
           </div>
         </vuestic-widget>
-        <vuestic-widget>
-        <h4>Unit Impediment list</h4>
+        <vuestic-widget headerText="Impediment list">
           <form>
             <div class="col-md-12">
             <div class="row">
@@ -91,14 +90,12 @@
         
         <div class="row">
           <div class="col-md-6">
-            <vuestic-widget>
-              <h4>Unit Teams Velocity</h4>
+            <vuestic-widget headerText="Teams Velocity">
               <vuestic-chart :data="unitVelocity" type="vertical-bar"></vuestic-chart>
             </vuestic-widget>
           </div>
           <div class="col-md-6">
-            <vuestic-widget>
-              <h4>Bugs P0/P1</h4>
+            <vuestic-widget headerText="Bugs P0/P1">
               <vuestic-chart :data="unitVelocity" type="vertical-bar"></vuestic-chart>
             </vuestic-widget>
           </div>
@@ -106,23 +103,14 @@
 
         <div class="row">
           <div class="col-md-6">
-            <vuestic-widget>
-              <h4>Support Bugs</h4>
+            <vuestic-widget headerText="Support Bugs">
               <vuestic-chart :data="unitVelocity" type="vertical-bar"></vuestic-chart>
             </vuestic-widget>
           </div>
           <div class="col-md-6">
-            <vuestic-widget>
-              <h4>SLAs</h4>
+            <vuestic-widget headerText="SLAs">
               <div class="table-responsive">
             <table class="table table-striped table-sm color-icon-label-table">
-              <thead>
-              <tr>
-                <td></td>
-                <td>Service</td>
-                <td>SLA</td>
-              </tr>
-              </thead>
               <tbody>
               <tr class="table-danger">
                 <td>

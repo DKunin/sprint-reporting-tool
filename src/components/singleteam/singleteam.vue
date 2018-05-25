@@ -2,15 +2,32 @@
   <div class="singleTeam">
       
     <h2>Team: {{ pageName() }}, Unit: Lorem, Cluster </h2>
-    <ul class="sprint-short">
+    
       
-      <li><h4>{{ sprintName() }}  {{ sprintStart() }} - {{ sprintEnd() }}</h4> <div class="sprit-status-future sprit-status btn btn-micro btn-secondary" disabled>Future</div></li>
-
-      <li><h4>{{ sprintName() }}  {{ sprintStart() }} - {{ sprintEnd() }}</h4> <div class="sprit-status btn btn-micro btn-primary">In progress</div></li>
-
-      <li><h4>{{ sprintName() }}  {{ sprintStart() }} - {{ sprintEnd() }}</h4> <div class="sprit-status sprit-status-past btn btn-micro btn-danger">finished</div></li>
+      <vuestic-widget>
+        <div class="row">
+          <div class="col-md-12 sprint-short">
+            <h4>{{ sprintName() }}  {{ sprintStart() }} - {{ sprintEnd() }}</h4> <div class="sprit-status-future sprit-status btn btn-micro btn-secondary" disabled>Future</div>
+          </div>
+        </div>
+      </vuestic-widget>
 
       <vuestic-widget>
+        <div class="row">
+          <div class="col-md-12 sprint-short">
+            <h4>{{ sprintName() }}  {{ sprintStart() }} - {{ sprintEnd() }}</h4> <div class="sprit-status sprit-status-past btn btn-micro btn-primary">In progress</div>
+          </div>
+        </div>
+      </vuestic-widget>
+
+      <vuestic-widget>
+        <div class="row">
+          <div class="col-md-12 sprint-short opened">
+            <h4>{{ sprintName() }}  {{ sprintStart() }} - {{ sprintEnd() }}</h4> <div class="sprit-status sprit-status-past btn btn-micro btn-danger">finished</div>
+          
+          </div>
+        </div>
+
       <div class="row">
         <div class="col-md-2">
           <vuestic-widget class="info-widget">
@@ -125,13 +142,6 @@
           <div class="col-md-4">
             <div class="table-responsive">
             <table class="table table-striped table-sm color-icon-label-table">
-              <thead>
-              <tr>
-                <td></td>
-                <td>Service</td>
-                <td>SLA</td>
-              </tr>
-              </thead>
               <tbody>
               <tr class="table-danger">
                 <td>
@@ -170,11 +180,6 @@
 
     </vuestic-widget>
 
-
-      <li><h4>{{ sprintName() }}  {{ sprintStart() }} - {{ sprintEnd() }}</h4> <div class="sprit-status sprit-status-past btn btn-micro btn-primary">finished</div></li>
-
-      <li><h4>{{ sprintName() }}  {{ sprintStart() }} - {{ sprintEnd() }}</h4> <div class="sprit-status sprit-status-past btn btn-micro btn-warning">finished</div></li>
-    </ul>
 
 
   </div>
@@ -299,10 +304,11 @@
   .sprit-status-future {
     filter: saturate(0);
   }
-  .sprint-short h4 {
-    margin-bottom: 0;
+  .sprint-short.opened {
+    margin-bottom: 20px;
   }
-  .sprint-short li {
+
+  .sprint-short {
     padding: 10px;
     display: flex;
     justify-content: space-between;
