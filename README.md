@@ -4,6 +4,11 @@ Dashboard to display team statuses based on JIRA data, and append own reports.
 
 ## Roadmap
 
+# Alpha
+- [] Hardcoded units
+- [] Hardcoded sprints
+- [] Only cumulative Jira Data
+
 # Beta
 - [] Slack sign-in integration 
 - [] Create Unit (localdb)

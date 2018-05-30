@@ -3,23 +3,6 @@
       
     <h2>Team: {{ pageName() }}, Unit: Lorem, Cluster </h2>
     
-      
-      <vuestic-widget>
-        <div class="row">
-          <div class="col-md-12 sprint-short">
-            <h4>{{ sprintName() }}  {{ sprintStart() }} - {{ sprintEnd() }}</h4> <div class="sprit-status-future sprit-status btn btn-micro btn-secondary" disabled>Future</div>
-          </div>
-        </div>
-      </vuestic-widget>
-
-      <vuestic-widget>
-        <div class="row">
-          <div class="col-md-12 sprint-short">
-            <h4>{{ sprintName() }}  {{ sprintStart() }} - {{ sprintEnd() }}</h4> <div class="sprit-status sprit-status-past btn btn-micro btn-primary">In progress</div>
-          </div>
-        </div>
-      </vuestic-widget>
-
       <vuestic-widget>
         <div class="row">
           <div class="col-md-12 sprint-short opened">
@@ -197,6 +180,8 @@
     components: {},
     mounted () {
       this.$refs['circle'].$data.value = 80
+      console.log(this.$store.state.teams)
+      this.$store.dispatch('getSprintData')
     },
     data () {
       return {
