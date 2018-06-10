@@ -3,9 +3,9 @@ import Vuex from 'vuex'
 import VuexI18n from 'vuex-i18n' // load vuex i18n module
 
 import app from './modules/app'
+import teams from './modules/teams'
 import menu from './modules/menu'
 import * as getters from './getters'
-const { JIRA_SEARCH } = process.env
 
 Vue.use(Vuex)
 
@@ -14,14 +14,10 @@ const store = new Vuex.Store({
   getters,
   modules: {
     app,
-    menu
+    menu,
+    teams
   },
   state: {
-    teams: {
-      tns: {
-        sprints: [],
-      }
-    }
   },
   mutations: {
     updateSprint (state, opened) {
@@ -29,13 +25,6 @@ const store = new Vuex.Store({
     }
   },
   actions: {
-    getSprintData ({ commit }, opened) {
-      fetch(`${JIRA_SEARCH}?jql=${escape('Sprint = 1574')}`)
-        .then(res => res.json()).then((sprintData) => {
-          console.log(sprintData)
-        })
-      // commit(types.TOGGLE_SIDEBAR, opened)
-    }
   },
 })
 

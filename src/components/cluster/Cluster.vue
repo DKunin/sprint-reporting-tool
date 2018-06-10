@@ -1,58 +1,35 @@
 <template>
   <div class="cluster">
-      <vuestic-widget class="no-padding no-v-padding">
+      <vuestic-widget v-for="singleTeam in teams" class="no-padding no-v-padding" :key="singleTeam.id">
         <div class="info-widget-inner">
-          <h4 @click="openPage('/team/team-x')">Unit: Lorem </h4>
+
+          <h4 @click="openPage('/team/team-x')">{{ singleTeam.name }} </h4>
+
           <div class="team-statuses">
-            <div class="team-status">
-              Team X: <div @click="openPage('/team/team-x')" title="team-x" class="btn btn-micro btn-primary btn-with-icon rounded-icon"></div></div>
-            <div class="team-status">
-              Team Y: <div @click="openPage('/team/team-y')" title="team-y" class="btn btn-micro btn-warning btn-with-icon rounded-icon"></div></div>
-            <div class="team-status">
-              Team Z: <div @click="openPage('/team/team-z')" title="team-z" class="btn btn-micro btn-warning btn-with-icon rounded-icon"></div></div>
+            <div class="team-status" v-for="featureTeam in singleTeam.teams">
+              {{ featureTeam.name }}: <div @click="openPage('/team/' + singleTeam.id)" class="btn btn-micro btn-primary btn-with-icon rounded-icon"></div></div>
           </div>
           
-          <a href="" class="unit-lead">@leaderperson</a>
-        </div>
-      </vuestic-widget>
-      <vuestic-widget class="no-padding no-v-padding">
-        <div class="info-widget-inner">
-          <h4 @click="openPage('/team/team-y')">Unit: Ipsum &nbsp;&nbsp;
-            
-          </h4>
-          <div class="team-statuses">
-            <div class="team-status">
-              Team Q: <div @click="openPage('/team/team-q')" title="team-q" class="btn btn-micro btn-warning btn-with-icon rounded-icon"></div>
-            </div>
-          </div>
-          <a href="" class="unit-lead">@leaderperson</a>
-        </div>
-      </vuestic-widget>
-      <vuestic-widget class="no-padding no-v-padding">
-        <div class="info-widget-inner">
-          <h4 @click="openPage('/team/team-z')">Unit: Dolor &nbsp;&nbsp;
-          </h4>
-          <div class="team-statuses">
-            <div class="team-status">
-              Team U: <div @click="openPage('/team/team-u')" title="team-u" class="btn btn-micro btn-primary btn-with-icon rounded-icon"></div>
-            </div>
-            <div class="team-status">
-              Team L: <div @click="openPage('/team/team-l')" title="team-l" class="btn btn-micro btn-danger btn-with-icon rounded-icon"></div>
-            </div>
-          </div>
-
-          <a href="" class="unit-lead">@leaderperson</a>
+          <a href="" class="unit-lead">{{ singleTeam.leader }}</a>
         </div>
       </vuestic-widget>
   </div>
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
 
   export default {
     name: 'cluster',
     components: {},
+    computed: {
+      ...mapGetters([
+        'teams'
+      ]),
+    },
+    mounted () {
 
+    },
     methods: {
       openPage (page) {
         this.$router.push(page)

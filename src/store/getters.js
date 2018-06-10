@@ -4,6 +4,7 @@ const menuItems = state => state.menu.items
 const sidebarOpened = state => state.app.sidebar.opened
 const toggleWithoutAnimation = state => state.app.sidebar.withoutAnimation
 const config = state => state.app.config
+const teams = state => state.teams
 const palette = state => state.app.config.palette
 const isLoading = state => state.app.isLoading
 const breadcrumbs = state => {
@@ -15,6 +16,7 @@ export {
   toggleWithoutAnimation,
   sidebarOpened,
   config,
+  teams,
   palette,
   isLoading,
   breadcrumbs

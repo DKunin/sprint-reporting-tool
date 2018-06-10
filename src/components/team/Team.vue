@@ -4,11 +4,12 @@
 
     <div class="row">
       <div class="col-md-6">
-        <vuestic-widget class="no-padding no-v-padding">
+        <!-- Feature Teams -->
+        <vuestic-widget class="no-padding no-v-padding" v-for="featureTeam in teams.tns.teams" key="featureTeam.id">
           <div class="info-widget-inner">
             
               <div title="team-x" class="btn btn-micro btn-primary btn-with-icon rounded-icon"></div>
-              <div @click="openPage('/singleteam/team-x')" class="title">&nbsp;&nbsp;Lorem X</div>
+              <div @click="openPage('/singleteam/' + featureTeam.id)" class="title">&nbsp;&nbsp;{{ featureTeam.name }}</div>
               <div class="trend">
                 <trend
                   :data="[60, 55, 55, 55, 40, 40, 25]"
@@ -20,48 +21,12 @@
                   >
                 </trend>
               </div>
-              <a href="" class="unit-lead">@leaderperson</a>
+              <a href="" class="unit-lead">{{ featureTeam.leader }}</a>
 
           </div>
         </vuestic-widget>
-        <vuestic-widget class="no-padding no-v-padding">
-          <div class="info-widget-inner">
-              <div title="team-x" class="btn btn-micro btn-primary btn-with-icon rounded-icon"></div>
-              <div @click="openPage('/singleteam/team-y')" class="title">&nbsp;&nbsp;Lorem Y</div>
-              <div class="trend">
-                <trend
-                  :data="[60, 55, 50, 50, 48, 40, 21]"
-                  :gradient="['#6fa8dc', '#42b983', '#2c3e50']"
-                  :min="0"
-                  :max="100"
-                  auto-draw
-                  :height="100"
-                  >
-                </trend>
-              </div>
-              <a href="" class="unit-lead">@leaderperson</a>
 
-          </div>
-        </vuestic-widget>
-        <vuestic-widget class="no-padding no-v-padding">
-          <div class="info-widget-inner">
-              <div title="team-x" class="btn btn-micro btn-danger btn-with-icon rounded-icon"></div>
-              <div @click="openPage('/singleteam/team-z')" class="title">&nbsp;&nbsp;Lorem Z</div>
-              <div class="trend">
-                <trend
-                  :data="[60, 55, 50, 50, 50, 50, 50]"
-                  :gradient="['#6fa8dc', '#42b983', '#2c3e50']"
-                  :min="0"
-                  :max="100"
-                  auto-draw
-                  :height="100"
-                  >
-                </trend>
-              </div>
-              <a href="" class="unit-lead">@leaderperson</a>
-
-          </div>
-        </vuestic-widget>
+        <!-- Impediment list -->
         <vuestic-widget headerText="Impediment list">
           <form>
             <div class="col-md-12">
@@ -86,6 +51,7 @@
           </form>
       </vuestic-widget>
       </div>
+
       <div class="col-md-6">
         
         <div class="row">
@@ -150,6 +116,7 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
   import unitVelocity from 'data/charts/unitVelocity'
 
   export default {
@@ -160,10 +127,17 @@
         this.$router.push(page)
       }
     },
+    computed: {
+      ...mapGetters([
+        'teams'
+      ]),
+    },
     data () {
       return {
-        unitVelocity: unitVelocity,
-        pageName: () => this.$route.params.name
+        unitVelocity,
+        pageName: () => {
+          return this.teams.tns.name
+        }
       }
     }
   }
