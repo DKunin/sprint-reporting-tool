@@ -4,75 +4,19 @@
     <div class="col-md-12">
         <vuestic-widget headerText="Settings">
           <form>
-
             <div class="row">
               <div class="col-md-6">
                 <fieldset>
                   <div class="form-group">
                     <div class="input-group">
-                      <input id="inputWithDescription" required title=""/>
-                      <label class="control-label" for="simple-input">{{'forms.inputs.textInputWithDescription'
-                        | translate}}</label><i
+                      <input id="inputWithDescription" required title="" v-model="jiraKey"/>
+                      <label class="control-label" for="simple-input">Jira API endpoint</label><i
                       class="bar"></i>
-                      <small class="help text-secondary">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed
-                        do eiusmod tempor incididunt ut labore et dolore magna
-                        aliqua.
-                      </small>
-                    </div>
-                  </div>
-
-                    <div class="form-group">
-                    <div class="input-group">
-                      <input id="inputWithDescription" required title=""/>
-                      <label class="control-label" for="simple-input">{{'forms.inputs.textInputWithDescription'
-                        | translate}}</label><i
-                      class="bar"></i>
-                      <small class="help text-secondary">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed
-                        do eiusmod tempor incididunt ut labore et dolore magna
-                        aliqua.
-                      </small>
-                    </div>
-                  </div>
-
-                    <div class="form-group">
-                    <div class="input-group">
-                      <input id="inputWithDescription" required title=""/>
-                      <label class="control-label" for="simple-input">{{'forms.inputs.textInputWithDescription'
-                        | translate}}</label><i
-                      class="bar"></i>
-                      <small class="help text-secondary">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed
-                        do eiusmod tempor incididunt ut labore et dolore magna
-                        aliqua.
-                      </small>
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <div class="input-group">
-                      <input id="inputWithDescription" required title=""/>
-                      <label class="control-label" for="simple-input">{{'forms.inputs.textInputWithDescription'
-                        | translate}}</label><i
-                      class="bar"></i>
-                      <small class="help text-secondary">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed
-                        do eiusmod tempor incididunt ut labore et dolore magna
-                        aliqua.
-                      </small>
                     </div>
                   </div>
                 </fieldset>
               </div>
-
-              
             </div>
-
           </form>
         </vuestic-widget>
       </div>
@@ -83,9 +27,14 @@
 <script>
   export default {
     name: 'Settings',
-
-    data () {
-      return {
+    computed: {
+      jiraKey: {
+        get () {
+          return this.$store.getters.config.jira.apiKey
+        },
+        set (value) {
+          this.$store.commit('JIRA_API_KEY_SET', value)
+        }
       }
     }
   }

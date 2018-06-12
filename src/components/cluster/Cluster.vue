@@ -1,18 +1,21 @@
 <template>
   <div class="cluster">
-      <vuestic-widget v-for="singleTeam in teams" class="no-padding no-v-padding" :key="singleTeam.id">
+
+      <vuestic-widget v-for="singleTeam in teams" class="no-padding no-v-padding" :key="singleTeam.id" v-if="singleTeam.id">
         <div class="info-widget-inner">
 
-          <h4 @click="openPage('/team/team-x')">{{ singleTeam.name }} </h4>
+          <h4 @click="openPage('/singleteam/' + singleTeam.id)">{{ singleTeam.name }} </h4>
 
           <div class="team-statuses">
-            <div class="team-status" v-for="featureTeam in singleTeam.teams">
-              {{ featureTeam.name }}: <div @click="openPage('/team/' + singleTeam.id)" class="btn btn-micro btn-primary btn-with-icon rounded-icon"></div></div>
+            <div class="team-status" v-for="featureTeam in singleTeam.teams" @click="openPage('/singleteam/' + singleTeam.id)">
+              {{ featureTeam.name }} <div v-if="false" @click="openPage('/team/' + singleTeam.id)" class="btn btn-micro btn-primary btn-with-icon rounded-icon"></div>
+            </div>
           </div>
           
           <a href="" class="unit-lead">{{ singleTeam.leader }}</a>
         </div>
       </vuestic-widget>
+
   </div>
 </template>
 

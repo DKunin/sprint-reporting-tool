@@ -9,9 +9,19 @@ import * as getters from './getters'
 
 Vue.use(Vuex)
 
+
+const persistSettings = store => {
+  store.subscribe((mutation, state) => {
+    if (mutation.type === 'JIRA_API_KEY_SET') {
+      localStorage.setItem('JIRA_API_KEY_SET', state.app.config.jira.apiKey)
+    }
+  })
+}
+
 const store = new Vuex.Store({
   strict: true, // process.env.NODE_ENV !== 'production',
   getters,
+  plugins: [ persistSettings ],
   modules: {
     app,
     menu,

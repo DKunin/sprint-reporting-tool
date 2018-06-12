@@ -1,22 +1,32 @@
 <template>
   <div class="singleTeam">
       
-    <h2>Team: {{ pageName() }}, Unit: Lorem, Cluster </h2>
+    <h2>Team: Main Team, Unit: Trust&Safety </h2>
 
-      <vuestic-widget v-for="sprint in teams.tns.sprints" key="sprint.id">
-        
+      <vuestic-widget v-for="sprint in teams.tns.sprints" :key="sprint.id">
         <div class="row" @click="openSprint(sprint.id)">
           <div :class="'col-md-12 sprint-short ' + (teams.openedSprint === sprint.id ? 'opened' : ' ')">
-            <h4>{{sprint.name}}</h4> <div class="sprit-status sprit-status-past btn btn-micro">{{sprint.state}}</div>
+            <h4>{{sprint.name}}</h4> 
+            <div :class="sprintStateClass(sprint.state)">{{sprint.state}}</div>
           </div>
         </div>
 
         <div v-if="teams.openedSprint === sprint.id">
+
+          <div class="row">
+            <div class="col-md-6">
+              <h5>{{teams.sprintDetails.dates.startDateObject.toLocaleDateString()}} - {{teams.sprintDetails.dates.endDateObject.toLocaleDateString()}}</h5>
+            </div>
+          </div>
           <div class="row">
             <div class="col-md-2">
               <vuestic-widget class="info-widget">
                 <div class="info-widget-inner">
-                  <vuestic-progress-bar type="circle" ref="circle" :value="20"></vuestic-progress-bar>
+                  <div class="stats">
+                    <div class="stats-number">
+                      {{ teams.sprintDetails.percent }} %
+                    </div>
+                  </div>
                 </div>
               </vuestic-widget>
             </div>
@@ -25,7 +35,7 @@
               <div class="info-widget-inner">
                 <div class="stats">
                   <div class="stats-number">
-                    {{ teams.tns.sprintDetails.completed.estimation }}/{{ teams.tns.sprintDetails.totalStoryPoints }}
+                    {{ teams.sprintDetails.completed.estimation }}/{{ teams.sprintDetails.totalStoryPoints }}
                   </div>
                   <div class="stats-title">Story Points</div>
                 </div>
@@ -38,7 +48,7 @@
               <div class="info-widget-inner">
                 <div class="stats">
                   <div class="stats-number">
-                    0
+                    {{ teams.lsr }}
                   </div>
                   <div class="stats-title">LSR</div>
                 </div>
@@ -51,7 +61,7 @@
                 <div class="info-widget-inner">
                   <div class="stats">
                     <div class="stats-number">
-                      6
+                      {{ teams.pzeroBugs }}
                     </div>
                     <div class="stats-title">P0/P1 bugs</div>
                   </div>
@@ -64,7 +74,7 @@
               <div class="info-widget-inner">
                 <div class="stats">
                   <div class="stats-number">
-                    2
+                    {{ teams.supportBugs }}
                   </div>
                   <div class="stats-title">Support Bugs</div>
                 </div>
@@ -72,7 +82,7 @@
               </vuestic-widget>
             </div>
 
-            <div class="col-md-2">
+            <div class="col-md-2" v-if="false">
               <vuestic-widget headerText="Backglog" class="widget-short-info">
               <div class="widget-inner">
                   <div class="stats-title">formed: <i class="fa fa-check success-icon icon-right input-icon"></i></div>
@@ -86,7 +96,7 @@
           <div class="row">
             <div class="col-md-4" v-if="false">
               <vuestic-widget headerText="Burndown">
-                <vuestic-chart :data="lineChartData" type="line"></vuestic-chart>
+                <vuestic-chart :data="teams.sprintDetails.lineChartData" type="line"></vuestic-chart>
               </vuestic-widget>
             </div>
             <div class="col-md-4" v-if="false">
@@ -96,7 +106,7 @@
             </div>
             <div class="col-md-4">
               <vuestic-widget class="chart-widget" headerText="Tasks">
-                <vuestic-chart :data="teams.tns.sprintDetails.tasksPie" type="pie"></vuestic-chart>
+                <vuestic-chart :data="teams.sprintDetails.tasksPie" type="pie"></vuestic-chart>
               </vuestic-widget>
             </div>
           </div>
@@ -169,7 +179,6 @@
 
 <script>
   import faker from 'faker'
-  import utils from 'services/utils'
   import store from 'vuex-store'
   import {mapGetters, mapActions} from 'vuex'
 
@@ -187,17 +196,18 @@
         'getSprintList',
         'openSprint'
       ]),
-
+      sprintStateClass (state) {
+        return {
+          'sprit-status sprit-status-past btn btn-micro': true,
+          'btn-pale': state === 'CLOSED',
+          'btn-warning': state === 'FUTURE'
+        }
+      }
     },
     computed: {
       ...mapGetters([
         'teams'
       ])
-    },
-    watch: {
-      teams () {
-        console.log('change')
-      }
     },
     data () {
       return {
@@ -210,22 +220,6 @@
               data: [22, 25, 30]
             }
           ]
-        },
-        lineChartData: {
-          labels: ['mon', 'tue', 'wed', 'thu', 'friday'],
-          datasets: [
-            {
-              label: 'Fact',
-              backgroundColor: utils.hex2rgb(palette.primary, 0.6).css,
-              borderColor: palette.transparent,
-              data: [90, 88, 80, 50, 20]
-            }, {
-              label: 'Plan',
-              backgroundColor: utils.hex2rgb(palette.info, 0.6).css,
-              borderColor: palette.transparent,
-              data: [100, 80, 60, 40, 20]
-            }
-          ],
         },
         sprintName: faker.name.findName,
         sprintStart: () => faker.date.past().toLocaleDateString(),

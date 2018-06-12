@@ -6,8 +6,8 @@ const state = {
     withoutAnimation: false
   },
   config: {
-    googleMaps: {
-      apiKey: 'AIzaSyBNAqPrTQoz9P4NBlDDyfxrnKiafkaL8iQ'
+    jira: {
+      apiKey: localStorage.getItem('JIRA_API_KEY_SET')
     },
     windowMatchSizeLg: '(min-width: 992px)',
     palette: {
@@ -20,7 +20,15 @@ const state = {
       black: '#000',
       fontColor: '#34495e',
       transparent: 'transparent',
-      lighterGray: '#ddd'
+      lighterGray: '#ddd',
+
+      Improvement: '#1abc9c',
+      QA: '#3498db',
+      Refactoring: '#9b59b6',
+      Epic: '#34495e',
+      Bug: '#e34a4a',
+      'Technical Research': '#ddd',
+      'Enable Feature': '#f7cc36'
     }
   },
   isLoading: true
@@ -37,6 +45,9 @@ const mutations = {
   },
   [types.TOGGLE_WITHOUT_ANIMATION] (state, value) {
     state.sidebar.withoutAnimation = value
+  },
+  JIRA_API_KEY_SET (state, value) {
+    state.config.jira.apiKey = value
   },
   setLoading (state, isLoading) {
     state.isLoading = isLoading

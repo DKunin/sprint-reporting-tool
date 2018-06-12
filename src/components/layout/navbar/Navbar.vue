@@ -16,7 +16,7 @@
         
       </div>
 
-      <div class="col nav-item d-flex align-items-center justify-content-center">
+      <div class="col nav-item d-flex align-items-center justify-content-center" v-if="false">
         <a class="nav-link d-flex align-items-center justify-content" href="#/settings">
           <span class="vuestic-icon vuestic-icon-settings"></span>
         </a>
