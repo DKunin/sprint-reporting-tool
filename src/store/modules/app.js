@@ -43,9 +43,6 @@ const mutations = {
   [types.TOGGLE_SIDEBAR] (state, opened) {
     state.sidebar.opened = opened
   },
-  [types.TOGGLE_WITHOUT_ANIMATION] (state, value) {
-    state.sidebar.withoutAnimation = value
-  },
   JIRA_API_KEY_SET (state, value) {
     state.config.jira.apiKey = value
   },
@@ -60,9 +57,6 @@ const actions = {
   },
   toggleSidebar ({ commit }, opened) {
     commit(types.TOGGLE_SIDEBAR, opened)
-  },
-  isToggleWithoutAnimation ({ commit }, value) {
-    commit(types.TOGGLE_WITHOUT_ANIMATION, value)
   }
 }
 

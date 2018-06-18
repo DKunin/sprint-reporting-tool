@@ -49,7 +49,6 @@ function typeOfTasks (tasksArray) {
     }
     return newObject
   }, {})
-  console.log(Object.keys(reduced))
   return {
     reduced,
     labels: Object.keys(reduced),
@@ -141,11 +140,12 @@ const mutations = {
 
 const actions = {
   openSprint ({ commit, state }, sprintId) {
-    // commit('openSprint', null)
-    commit('setSprintDetails', Object.assign({}, emptySprintDetails))
+    commit('supportBugs', 0)
+    commit('lsr', 0)
+    commit('pzeroBugs', 0)
     if (state.openedSprint === sprintId) {
-      // commit('openSprint', null)
-      // commit('setSprintDetails', Object.assign({}, emptySprintDetails))
+      commit('openSprint', null)
+      commit('setSprintDetails', Object.assign({}, emptySprintDetails))
     } else {
       commit('openSprint', sprintId)
       fetch(API_URL + `/api/jira/rest/greenhopper/1.0/rapid/charts/sprintreport?rapidViewId=509&sprintId=${sprintId}`)
@@ -155,46 +155,36 @@ const actions = {
           commit('setSprintDetails', Object.assign({}, processedData))
           return processedData
         })
+        // .then(processedData => {
+        //   console.log(state)
+        //   // Запрос бэклога
+        //   // fetch(`${}/api/search?jql=${escape(`Sprint=${processedData.id}`)}`).then(res => res.json()).then(fullBacklog => {
+        //   //   // console.log(typeOfTasks(fullBacklog.issues))
+        //   // })
+        //   // fetch(API_URL + `/api/jira/rest/greenhopper/1.0/rapid/charts/scopechangeburndownchart.json?rapidViewId=509&sprintId=${processedData.id}&statisticFieldId=field_customfield_10212`).then(res => res.json()).then(dateResult => {
+        //   // }).then(chartData => {
+        //   //   console.log(chartData)
+        //   // })
+        //   return processedData
+        // })
         .then(processedData => {
-          // console.log(state)
-          // Запрос бэклога
-          // fetch(`${}/api/search?jql=${escape(`Sprint=${processedData.id}`)}`).then(res => res.json()).then(fullBacklog => {
-          //   // console.log(typeOfTasks(fullBacklog.issues))
-          // })
-          // fetch('/static/test-data/tickets-report.json').then(res => res.json()).then(dateResult => {
+          // Проверка Суппорт багов
+          const searchQuery = escape(`project = SPT and Unit = "Trust and Safety" AND created >= ${processDate(processedData.dates.startDateObject)} AND created <= ${processDate(processedData.dates.endDateObject)}`)
 
-          // })
-          return processedData
-        })
-        .then(processedData => {
-          console.log(state)
-          // Запрос бэклога
-          // fetch(`${}/api/search?jql=${escape(`Sprint=${processedData.id}`)}`).then(res => res.json()).then(fullBacklog => {
-          //   // console.log(typeOfTasks(fullBacklog.issues))
-          // })
-          // fetch(API_URL + `/api/jira/rest/greenhopper/1.0/rapid/charts/scopechangeburndownchart.json?rapidViewId=509&sprintId=${processedData.id}&statisticFieldId=field_customfield_10212`).then(res => res.json()).then(dateResult => {
-          // }).then(chartData => {
-          //   console.log(chartData)
-          // })
-          return processedData
-        })
-        .then(processedData => {
-          // Проверка Суппорт багов и LSR
-          const searchQuery = escape(`Unit = "Trust and Safety" AND created >= ${processDate(processedData.dates.startDateObject)} AND created <= ${processDate(processedData.dates.endDateObject)}`)
           fetch(API_URL + `/api/search?jql=${searchQuery}`)
             .then(res => res.json()).then(dateResult => {
-              commit('lsr', 0)
-              commit('supportBugs', 0)
+              commit('supportBugs', dateResult.issues.length)
             })
           return processedData
         })
         .then(processedData => {
-          console.log(processedData.dates.startDate)
-          // fetch(`/static/test-data/tickets-report.json?${processedData.dates.startDate}+${processedData.dates.endDate}`).then(res => res.json()).then(dateResult => {
+          // Проверка LSR
+          const searchQuery = escape(`project = "LSR (Live Site Review)" and Unit = "Trust and Safety" AND created >= ${processDate(processedData.dates.startDateObject)} AND created <= ${processDate(processedData.dates.endDateObject)}`)
 
-
-          //   // commit('pzeroBugs', 0)
-          // })
+          fetch(API_URL + `/api/search?jql=${searchQuery}`)
+            .then(res => res.json()).then(dateResult => {
+              commit('lsr', dateResult.issues.length)
+            })
           return processedData
         })
     }

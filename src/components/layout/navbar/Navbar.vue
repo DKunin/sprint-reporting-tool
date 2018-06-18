@@ -62,8 +62,7 @@
     methods: {
       ...mapActions([
         'closeMenu',
-        'toggleSidebar',
-        'isToggleWithoutAnimation'
+        'toggleSidebar'
       ])
     }
   }
