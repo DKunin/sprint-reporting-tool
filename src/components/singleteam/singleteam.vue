@@ -1,17 +1,15 @@
 <template>
   <div class="singleTeam">
-      
-    <h2>Team: Main Team, Unit: Trust&Safety </h2>
-
-      <vuestic-widget v-for="sprint in teams.tns.sprints" :key="sprint.id">
-        <div class="row" @click="openSprint(sprint.id)">
+    <h2>Team: {{ currentTeam().name }}, Unit: {{ currentUnit().name }}</h2>
+      <vuestic-widget v-for="sprint in currentUnit().sprints" :key="sprint.id">
+        <div class="row" @click="openSprintPath(sprint.id)">
           <div :class="'col-md-12 sprint-short'">
             <h4>{{sprint.name}}</h4> 
             <div :class="sprintStateClass(sprint.state)">{{sprint.state}}</div>
           </div>
         </div>
         <SingleTeamInfo 
-          v-if="teams.sprintDetails && sprint.id === teams.openedSprint"
+          v-if="teams.sprintDetails && sprint.id == teams.openedSprint"
           :sprintDetails="teams.sprintDetails"
           :lsr="teams.lsr"
           :pzeroBugs="teams.pzeroBugs"
@@ -36,17 +34,25 @@
       SingleTeamInfo
     },
     mounted () {
-      this.getSprintList()
+      this.getSprintList().then(result => {
+        if (this.$route.query.selectedSprint) {
+          this.openSprint(this.$route.query.selectedSprint)
+        }
+      })
     },
     methods: {
       ...mapActions([
         'getSprintList',
         'openSprint'
       ]),
+      openSprintPath (sprintId) {
+        this.$router.push({ path: this.$route.path, query: Object.assign({}, this.$route.query, { selectedSprint: sprintId }) })
+      },
       sprintStateClass (state) {
         return {
           'sprit-status sprit-status-past btn btn-micro': true,
           'btn-pale': state === 'CLOSED',
+          'btn-success': state === 'ACTIVE',
           'btn-warning': state === 'FUTURE'
         }
       }
@@ -55,6 +61,11 @@
       ...mapGetters([
         'teams'
       ])
+    },
+    watch: {
+      '$route' (to) {
+        this.openSprint(to.query.selectedSprint)
+      }
     },
     data () {
       return {
@@ -72,7 +83,17 @@
         sprintStart: () => faker.date.past().toLocaleDateString(),
         paragraph: () => faker.lorem.paragraph(),
         sprintEnd: () => faker.date.future().toLocaleDateString(),
-        pageName: () => this.$route.params.name
+        pageName: () => this.$route.params.name,
+        currentUnit: () => {
+          return this.$store.state.teams[this.$route.params.teamId]
+        },
+        currentTeam: () => {
+          const featureTeamId = parseInt(this.$route.query.featureTeam)
+          const featureTeam = this.$store.state.teams[this.$route.params.teamId].teams.find(singleTeam => {
+            return singleTeam.id === featureTeamId
+          })
+          return featureTeam
+        }
       }
     }
   }

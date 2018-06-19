@@ -2,7 +2,7 @@ import lazyLoading from './lazyLoading'
 
 export default {
   name: 'SingleTeam',
-  path: '/singleteam/:name',
+  path: '/singleteam/:teamId',
   component: lazyLoading('singleteam/singleteam'),
   meta: {
     default: true,

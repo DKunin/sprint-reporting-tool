@@ -1,14 +1,14 @@
 <template>
   <div class="cluster">
 
-      <vuestic-widget v-for="singleTeam in teams" class="no-padding no-v-padding" :key="singleTeam.id" v-if="singleTeam.id">
+      <vuestic-widget v-for="(singleTeam, singleTeamKey) in teams" class="no-padding no-v-padding" :key="singleTeam.id" v-if="singleTeam.id">
         <div class="info-widget-inner">
 
-          <h4 @click="openPage('/singleteam/' + singleTeam.id)">{{ singleTeam.name }} </h4>
+          <h4>{{ singleTeam.name }} </h4>
 
           <div class="team-statuses">
-            <div class="team-status" v-for="featureTeam in singleTeam.teams" @click="openPage('/singleteam/' + singleTeam.id)">
-              {{ featureTeam.name }} <div v-if="false" @click="openPage('/team/' + singleTeam.id)" class="btn btn-micro btn-primary btn-with-icon rounded-icon"></div>
+            <div class="team-status" v-for="featureTeam in singleTeam.teams" @click="openPage(`/singleteam/${singleTeamKey}?featureTeam=${featureTeam.id}`)">
+              {{ featureTeam.name }}
             </div>
           </div>
           

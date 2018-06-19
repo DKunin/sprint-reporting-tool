@@ -35,9 +35,9 @@ const state = {
     sprints: []
   },
   sprintDetails: emptySprintDetails,
-  lsr: 0,
-  pzeroBugs: 0,
-  supportBugs: 0
+  lsr: { length: 0, issues: [] },
+  pzeroBugs: { length: 0, issues: [] },
+  supportBugs: { length: 0, issues: [] }
 }
 
 function typeOfTasks (tasksArray) {
@@ -71,8 +71,8 @@ function processSprintData (data) {
     dates: {
       startDate: data.sprint.startDate,
       endDate: data.sprint.endDate,
-      startDateObject: new Date(data.sprint.startDate),
-      endDateObject: new Date(data.sprint.endDate),
+      startDateObject: data.sprint.startDate !== 'None' ? new Date(data.sprint.startDate) : null,
+      endDateObject: data.sprint.endDate !== 'None' ? new Date(data.sprint.endDate) : null,
       daysRemaining: data.sprint.daysRemaining,
     },
     completed: {
@@ -168,36 +168,67 @@ const actions = {
         //   return processedData
         // })
         .then(processedData => {
+          if (!processedData.dates.startDateObject) {
+            return processedData
+          }
           // Проверка Суппорт багов
           const searchQuery = escape(`project = SPT and Unit = "Trust and Safety" AND created >= ${processDate(processedData.dates.startDateObject)} AND created <= ${processDate(processedData.dates.endDateObject)}`)
 
           fetch(API_URL + `/api/search?jql=${searchQuery}`)
             .then(res => res.json()).then(dateResult => {
-              commit('supportBugs', dateResult.issues.length)
+              commit('supportBugs', {
+                length: dateResult.issues.length,
+                issues: dateResult.issues,
+              })
             })
           return processedData
         })
         .then(processedData => {
+          if (!processedData.dates.startDateObject) {
+            return processedData
+          }
+          // Проверка багов P0/P1
+          const searchQuery = escape(`project = "Trust & Safety" and type = Bug and "Priority for Bug" in (P0, P1)  AND created >= ${processDate(processedData.dates.startDateObject)} AND created <= ${processDate(processedData.dates.endDateObject)}`)
+
+          fetch(API_URL + `/api/search?jql=${searchQuery}`)
+            .then(res => res.json()).then(dateResult => {
+              commit('pzeroBugs', {
+                length: dateResult.issues.length,
+                issues: dateResult.issues
+              })
+            })
+          return processedData
+        })
+        .then(processedData => {
+          if (!processedData.dates.startDateObject) {
+            return processedData
+          }
           // Проверка LSR
           const searchQuery = escape(`project = "LSR (Live Site Review)" and Unit = "Trust and Safety" AND created >= ${processDate(processedData.dates.startDateObject)} AND created <= ${processDate(processedData.dates.endDateObject)}`)
 
           fetch(API_URL + `/api/search?jql=${searchQuery}`)
             .then(res => res.json()).then(dateResult => {
-              commit('lsr', dateResult.issues.length)
+              commit('lsr', {
+                length: dateResult.issues.length,
+                issues: dateResult.issues,
+              })
             })
           return processedData
         })
     }
   },
   getSprintList ({ commit }) {
-    fetch(API_URL + '/api/jira/rest/greenhopper/latest/sprintquery/509?includeHistoricSprints=true&includeFutureSprints=true').then(res => res.json()).then(sprintList => {
-      const onlyTNS = sprintList.sprints
-        .filter(({ name }) => name.includes('T&S'))
-        .filter(({ state }) => state === 'CLOSED')
-        .sort((a, b) => {
-          return b.sequence - a.sequence
-        })
-      commit('setSprintList', onlyTNS)
+    return new Promise(resolve => {
+      fetch(API_URL + '/api/jira/rest/greenhopper/latest/sprintquery/509?includeHistoricSprints=true&includeFutureSprints=true').then(res => res.json()).then(sprintList => {
+        const onlyTNS = sprintList.sprints
+          .filter(({ name }) => name.includes('T&S'))
+          // .filter(({ state }) => state === 'CLOSED')
+          .sort((a, b) => {
+            return b.sequence - a.sequence
+          })
+        commit('setSprintList', onlyTNS)
+        resolve()
+      })
     })
   }
 }

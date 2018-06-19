@@ -2,12 +2,12 @@
   <div>
       <div class="row">
         <div class="col-md-6">
-          <h5>{{ sprintDetails.dates.startDateObject.toLocaleDateString()}} - {{sprintDetails.dates.endDateObject.toLocaleDateString() }}</h5>
+          <h5>{{ sprintDetails.dates.startDateObject ? sprintDetails.dates.startDateObject.toLocaleDateString() : null }} - {{ sprintDetails.dates.endDateObject ? sprintDetails.dates.endDateObject.toLocaleDateString() : null }}</h5>
         </div>
       </div>
       <div class="row">
         <div class="col-md-2">
-          <vuestic-widget class="info-widget">
+          <vuestic-widget :class="smallWidgetClassPercent(sprintDetails.percent)">
             <div class="info-widget-inner">
               <div class="stats">
                 <div class="stats-number">
@@ -32,39 +32,54 @@
         </div>
 
         <div class="col-md-2">
-          <vuestic-widget :class="smallWidgetClass(lsr)">
+          <vuestic-widget :class="smallWidgetClass(lsr.length)">
           <div class="info-widget-inner">
             <div class="stats">
               <div class="stats-number">
-                {{ lsr }}
+                {{ lsr.length }}
               </div>
               <div class="stats-title">LSR</div>
+              <div class="small-list">
+                <div v-for="lsrIssue in lsr.issues">
+                  <a target="_blank" :href="generateLink(lsrIssue)">{{ lsrIssue.key }}</a>
+                </div>
+              </div>
             </div>
           </div>
           </vuestic-widget>
         </div>
 
         <div class="col-md-2">
-          <vuestic-widget :class="smallWidgetClass(pzeroBugs)">
+          <vuestic-widget :class="smallWidgetClass(pzeroBugs.length)">
             <div class="info-widget-inner">
               <div class="stats">
                 <div class="stats-number">
-                  {{ pzeroBugs }}
+                  {{ pzeroBugs.length }}
                 </div>
                 <div class="stats-title">P0/P1 bugs</div>
+                <div class="small-list">
+                  <div v-for="pzeroBugIssue in pzeroBugs.issues">
+                    <a target="_blank" :href="generateLink(pzeroBugIssue)">{{ pzeroBugIssue.key }}</a>
+                  </div>
+                </div>
               </div>
             </div>
           </vuestic-widget>
         </div>
 
         <div class="col-md-2">
-          <vuestic-widget :class="smallWidgetClass(supportBugs)">
+          <vuestic-widget :class="smallWidgetClass(supportBugs.length)">
           <div class="info-widget-inner">
             <div class="stats">
               <div class="stats-number">
-                {{ supportBugs }}
+                {{ supportBugs.length }}
               </div>
               <div class="stats-title">Support Bugs</div>
+                <div class="small-list">
+                  <div v-for="supportBugsIssue in supportBugs.issues">
+                    <a target="_blank" :href="generateLink(supportBugsIssue)">{{ supportBugsIssue.key }}</a>
+                  </div>
+                </div>
             </div>
           </div>
           </vuestic-widget>
@@ -95,18 +110,24 @@
         required: true
       },
       lsr: {
-        type: Number
+        type: Object
       },
       pzeroBugs: {
-        type: Number
+        type: Object
       },
       supportBugs: {
-        type: Number
+        type: Object
       },
     },
     methods: {
+      generateLink (issue) {
+        return issue.self.split('/rest')[0] + '/browse/' + issue.key
+      },
       smallWidgetClass (amount) {
         return `info-widget ${amount <= 2 && amount > 0 ? 'info-widget-warning' : amount > 2 ? 'info-widget-danger' : ''}`
+      },
+      smallWidgetClassPercent (amount) {
+        return `info-widget ${amount <= 80 ? 'info-widget-danger' : ''}`
       }
     }
   }
