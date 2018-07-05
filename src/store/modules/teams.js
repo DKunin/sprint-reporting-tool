@@ -140,9 +140,9 @@ const mutations = {
 
 const actions = {
   openSprint ({ commit, state }, sprintId) {
-    commit('supportBugs', 0)
-    commit('lsr', 0)
-    commit('pzeroBugs', 0)
+    commit('supportBugs', {})
+    commit('lsr', {})
+    commit('pzeroBugs', {})
     if (state.openedSprint === sprintId) {
       commit('openSprint', null)
       commit('setSprintDetails', Object.assign({}, emptySprintDetails))

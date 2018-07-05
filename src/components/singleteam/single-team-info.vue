@@ -41,7 +41,10 @@
               <div class="stats-title">LSR</div>
               <div class="small-list">
                 <div v-for="lsrIssue in lsr.issues">
-                  <a target="_blank" :href="generateLink(lsrIssue)">{{ lsrIssue.key }}</a>
+                  <a
+                    target="_blank"
+                    v-bind:class="{ finishedTicket: checkStatus(lsrIssue)}"
+                    :href="generateLink(lsrIssue)">{{ lsrIssue.key }}</a>
                 </div>
               </div>
             </div>
@@ -59,7 +62,10 @@
                 <div class="stats-title">P0/P1 bugs</div>
                 <div class="small-list">
                   <div v-for="pzeroBugIssue in pzeroBugs.issues">
-                    <a target="_blank" :href="generateLink(pzeroBugIssue)">{{ pzeroBugIssue.key }}</a>
+                    <a 
+                      target="_blank"
+                      v-bind:class="{ finishedTicket: checkStatus(pzeroBugIssue)}"
+                      :href="generateLink(pzeroBugIssue)">{{ pzeroBugIssue.key }}</a>
                   </div>
                 </div>
               </div>
@@ -77,7 +83,10 @@
               <div class="stats-title">Support Bugs</div>
                 <div class="small-list">
                   <div v-for="supportBugsIssue in supportBugs.issues">
-                    <a target="_blank" :href="generateLink(supportBugsIssue)">{{ supportBugsIssue.key }}</a>
+                    <a 
+                      target="_blank"
+                      v-bind:class="{ finishedTicket: checkStatus(supportBugsIssue)}"
+                      :href="generateLink(supportBugsIssue)">{{ supportBugsIssue.key }}</a>
                   </div>
                 </div>
             </div>
@@ -120,6 +129,9 @@
       },
     },
     methods: {
+      checkStatus (issue) {
+        return ['Closed', 'Resolved'].includes(issue.fields.status.name)
+      },
       generateLink (issue) {
         return issue.self.split('/rest')[0] + '/browse/' + issue.key
       },
@@ -218,5 +230,9 @@
 
   .widget-short-info .widget-body {
     padding-top: 2px;
+  }
+  .finishedTicket {
+    text-decoration:line-through;
+    color: gray;
   }
 </style>
